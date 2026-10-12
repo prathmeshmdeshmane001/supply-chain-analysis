@@ -1,0 +1,39 @@
+Order Region,total_orders,late_orders,delay_pct,Category_Type,Customer Segment,Shipping Mode,Order Status,Type,Department Name
+Central Africa,1616,948,58.66336633663366,Order Region,,,,,
+Southeast Asia,9136,5113,55.965411558669,Order Region,,,,,
+Eastern Europe,3785,2118,55.957727873183615,Order Region,,,,,
+South of  USA ,3855,2156,55.927367055771725,Order Region,,,,,
+East Africa,1781,995,55.86749017405952,Order Region,,,,,
+South Asia,7455,4162,55.82830315224682,Order Region,,,,,
+Western Europe,25867,14432,55.7930954498009,Order Region,,,,,
+West Asia,5746,3194,55.58649495301079,Order Region,,,,,
+US Center ,5653,3127,55.31576154254378,Order Region,,,,,
+East of USA,6617,3649,55.14583648178933,Order Region,,,,,
+,30817,17060,55.35905506700847,Customer Segment,Home Office,,,,
+,89420,48855,54.635428315813016,Customer Segment,Consumer,,,,
+,52528,28608,54.46238196771246,Customer Segment,Corporate,,,,
+,26513,26513,100.0,Shipping Mode,,First Class,,,
+,33806,26987,79.82902443353251,Shipping Mode,,Second Class,,,
+,103153,41023,39.76908087985807,Shipping Mode,,Standard Class,,,
+,9293,0,0.0,Shipping Mode,,Same Day,,,
+,20227,11177,55.257823700993725,Order Status,,,PENDING,,
+,1893,1046,55.25620707871104,Order Status,,,PAYMENT_REVIEW,,
+,39832,21912,55.01104639485841,Order Status,,,PENDING_PAYMENT,,
+,59491,32695,54.95789279050612,Order Status,,,COMPLETE,,
+,21902,11953,54.574924664414205,Order Status,,,PROCESSING,,
+,19616,10545,53.7571370309951,Order Status,,,CLOSED,,
+,9804,5195,52.98857609139127,Order Status,,,ON_HOLD,,
+,41725,22958,55.022168963451165,Type,,,,PAYMENT,
+,42129,23130,54.90279854731895,Type,,,,TRANSFER,
+,69295,37890,54.67926978858504,Type,,,,DEBIT,
+,19616,10545,53.7571370309951,Type,,,,CASH,
+,346,197,56.936416184971094,Department Name,,,,,Health and Beauty 
+,472,267,56.567796610169495,Department Name,,,,,Pet Shop
+,1396,777,55.65902578796562,Department Name,,,,,Technology
+,9267,5155,55.62749541383404,Department Name,,,,,Outdoors
+,2374,1316,55.43386689132266,Department Name,,,,,Fitness
+,31768,17381,54.71228909594561,Department Name,,,,,Golf
+,13891,7595,54.67568929522712,Department Name,,,,,Footwear
+,46884,25630,54.66683730057162,Department Name,,,,,Apparel
+,64033,34958,54.5937251104899,Department Name,,,,,Fan Shop
+,1943,1050,54.04014410705095,Department Name,,,,,Discs Shop

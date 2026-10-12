@@ -1,0 +1,11 @@
+Driver,Factor_Level,delay_pct,avg_delay,total_orders
+Shipping Mode,Shipping Mode : First Class,100.0,1.0,278
+Shipping Mode,Shipping Mode : Second Class,82.81786941580756,2.127147766323024,291
+Order Status,Order Status : PAYMENT_REVIEW,80.0,1.2,20
+Order Status,Order Status : PENDING,69.14893617021278,0.574468085106383,188
+Type,Type : PAYMENT,63.58381502890174,0.7630057803468208,346
+Type,Type : TRANSFER,63.26034063260341,0.6082725060827251,411
+Order Status,Order Status : PENDING_PAYMENT,62.57668711656442,0.7361963190184049,326
+Department Name,Department Name : Outdoors,61.25000000000001,0.8,80
+Department Name,Department Name : Golf,60.83086053412463,0.6735905044510386,337
+Customer Segment,Customer Segment : Consumer,60.150375939849624,0.6428571428571429,798

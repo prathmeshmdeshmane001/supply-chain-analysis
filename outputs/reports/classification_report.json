@@ -1,0 +1,33 @@
+{
+    "model_name": "Random Forest (Balanced via SMOTE)",
+    "accuracy": 0.74,
+    "precision": 0.78,
+    "recall": 0.75,
+    "classification_report": {
+        "0": {
+            "precision": 0.6820709491850432,
+            "recall": 0.7230654560238514,
+            "f1-score": 0.70197020030918,
+            "support": 14758.0
+        },
+        "1": {
+            "precision": 0.7838481066215358,
+            "recall": 0.7487244253599393,
+            "f1-score": 0.765883781618996,
+            "support": 19795.0
+        },
+        "accuracy": 0.7377651723439353,
+        "macro avg": {
+            "precision": 0.7329595279032894,
+            "recall": 0.7358949406918953,
+            "f1-score": 0.733926990964088,
+            "support": 34553.0
+        },
+        "weighted avg": {
+            "precision": 0.7403778641115436,
+            "recall": 0.7377651723439353,
+            "f1-score": 0.7385855258099414,
+            "support": 34553.0
+        }
+    }
+}

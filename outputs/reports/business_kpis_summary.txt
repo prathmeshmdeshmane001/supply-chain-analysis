@@ -1,0 +1,11 @@
+---- BUSINESS KPIS SUMMARY ----
+
+Total Orders: 172765
+Late Deliveries: 94523
+90% Delay (days): 3.0
+On time Delivery %: 45.29
+Late Delivery %: 54.71
+Total Profit: 7.5M $
+Total Profit (Raw USD): 7514813.81
+Total Loss due to delays: 2.1M $
+Total Loss due to delays (Raw USD): 2055765.16
