@@ -7,29 +7,28 @@
 
 ---
 
-## 1. Executive Summary: The PM & Supply Chain Manager POV
+## 1. Executive Summary
 
-### The Business Problem
+### Business Problem
 In e-commerce and retail supply chains, **customer retention lives and dies on delivery promise reliability**. If an order misses its promised Delivery Date (EDD), customer satisfaction plunges, "Where Is My Order?" (WISMO) support ticket volume spikes, and long-term Customer Lifetime Value (LTV) is severely eroded.
 
 In this enterprise supply chain dataset of **172,765 fulfillment orders**:
 - **54.71% of orders suffer delivery delays** (an On-Time Fulfillment rate of only **45.29%**).
-- **$2,055,765 in order profit is tied to delayed shipments**, directly risking margin loss through refund concessions and churn.
+- **$2,055,765 in order profit is tied to delayed shipments**, directly risking margin loss through refund concessions and customer churn.
 - **18.69% of all fulfilled orders operate at a net negative margin (loss)**, showing a critical need for fulfillment profitability controls.
 
-### The Product & Operational Objective
-As a **Supply Chain Manager / Product Manager (Fulfillment & Logistics Tech)**, our objective is threefold:
+### Objectives
 1. **Diagnose Friction Points**: Pinpoint the geographic corridors, shipping tiers, and product departments driving late deliveries.
 2. **Quantify Financial Risk**: Map delivery delays against gross margin leakage to justify operational logistics spend.
 3. **Deploy a Predictive Dispatch Engine**: Build and integrate a pre-dispatch Machine Learning classifier (Random Forest with SMOTE) into the Order Management System (OMS) to flag high-risk shipments at checkout with **78% precision**, enabling dynamic carrier upgrades and promise date adjustments.
 
 ---
 
-## 2. Supply Chain & Product KPI Dashboard
+## 2. Dashboard
 
 ```text
 ========================================================================================
-                          SUPPLY CHAIN MANAGEMENT SCORECARD
+                                     KPI SCORECARD
 ========================================================================================
 Total Orders Evaluated (Cleaned)        :  172,765
 On-Time Fulfillment Rate (OTIF)         :  45.29%  (Industry Benchmark: >85-95%)
@@ -44,16 +43,16 @@ Net Negative Margin Orders (Losses)     :  32,295 orders (18.69% of fulfillment 
 
 ---
 
-## 3. Product Manager & Supply Chain Insights
+## 3. Key Insights
 
 ### 3.1. The "1-to-2 Day" Delivery Promise Trap
 - **Analysis**: Over **46.9% of all orders arrive either 1 or 2 days late** (+1 day: 30.97%, +2 days: 15.95%). Only 7.8% of orders experience extreme delays of 3 or 4 days.
-- **PM Takeaway**: This is **not a cataclysmic transit breakdown**; it is a **static scheduling mismatch**. The checkout promise engine is promising delivery windows that are 24–48 hours tighter than 3PL carriers can fulfill.
+- **Key Takeaway**: This is **not a cataclysmic transit breakdown**; it is a **static scheduling mismatch**. The checkout promise engine is promising delivery windows that are 24–48 hours tighter than 3PL carriers can fulfill.
 - **Action**: Implementing an automated buffer (+1 to +2 days) on checkout promise dates for high-risk corridors will immediately restore OTIF rates above 90% without adding carrier freight expense.
 
 ### 3.2. Structural Fulfillment Flaws vs. Seasonal Spikes
 - **Analysis**: Time-based decomposition reveals that monthly delay rates remain virtually flat between **54.0% and 54.8%** throughout the entire calendar year. Hour-of-day order intake and day-of-week dispatch likewise show minimal variance (~54%–55%).
-- **Supply Chain Takeaway**: Delay rates are **systemic and structural**, not the result of holiday surges, flash sales, or warehouse shift timing. The carrier contracts and line-haul routes themselves have unrealistic delivery baselines.
+- **Key Takeaway**: Delay rates are **systemic and structural**, not the result of holiday surges, flash sales, or warehouse shift timing. The carrier contracts and line-haul routes themselves have unrealistic delivery baselines.
 
 ### 3.3. Regional Line-Haul Vulnerabilities
 - **Analysis**: Delays are heavily localized in cross-border and complex logistics networks:
@@ -61,15 +60,15 @@ Net Negative Margin Orders (Losses)     :  32,295 orders (18.69% of fulfillment 
   - **East Africa**: 58.3% late delivery rate
   - **Western Europe**: 56.4% late delivery rate
   - **South Asia**: 55.9% late delivery rate
-- **Supply Chain Takeaway**: Cross-border customs clearance and local carrier handoffs require region-specific SLA tiers rather than global uniform delivery standards.
+- **Key Takeaway**: Cross-border customs clearance and local carrier handoffs require region-specific SLA tiers rather than global uniform delivery standards.
 
 ### 3.4. Margin Defense & Unprofitable Fulfillments
 - **Analysis**: **18.69% of all orders lose money** (`Order Profit Per Order < 0`).
-- **PM Takeaway**: Fulfillment operations are actively subsidizing unprofitable shipments. An automated order gate must be established at cart checkout to prevent shipping discounts or loss-making fulfillment on low-value items.
+- **Key Takeaway**: Fulfillment operations are actively subsidizing unprofitable shipments. An automated order gate must be established at cart checkout to prevent shipping discounts or loss-making fulfillment on low-value items.
 
 ---
 
-## 4. Machine Learning Product: Pre-Dispatch SLA Risk Engine
+## 4. Predictive SLA Risk Engine
 
 To transition from retrospective reporting to real-time risk mitigation, we designed a predictive classifier embedded into the fulfillment workflow.
 
@@ -100,27 +99,27 @@ The model relies exclusively on **pre-fulfillment data** known at the time of pu
 
 ---
 
-## 5. Strategic Recommendations & Product Roadmap
+## 5. Strategic Roadmap
 
 ### P0 (Immediate): Dynamic Estimated Delivery Date (EDD) Engine
-- **Product Initiative**: Replace static checkout delivery promises with dynamic EDD calculation.
+- **Objective**: Replace static checkout delivery promises with dynamic EDD calculation.
 - **Implementation**: For destinations in Central/East Africa or orders utilizing Second Class freight, dynamically append a +1.5 day lead time buffer on the Product Detail Page (PDP) and Checkout.
 - **Impact**: Eliminates ~70% of customer-facing SLA breaches overnight without increasing logistics costs.
 
 ### P1 (Next Quarter): Dynamic Carrier Routing & Expedited Tier Swapping
-- **Supply Chain Initiative**: Integrate the ML Risk Engine directly into the Warehouse Management System (WMS).
+- **Objective**: Integrate the ML Risk Engine directly into the Warehouse Management System (WMS).
 - **Implementation**: If an order from a high-LTV customer is flagged as high-risk ($p_{\text{late}} > 0.70$), automatically upgrade the 3PL carrier service tier from Standard to First Class / Express before parcel pickup.
 - **Impact**: Safeguards high-value accounts and directly defends the **$2.06M in vulnerable profit**.
 
 ### P2 (Long-term): Margin Protection Fulfillment Gate
-- **Product & Finance Initiative**: Establish an OMS margin validation rule.
+- **Objective**: Establish an OMS margin validation rule.
 - **Implementation**: Block promotional free shipping on orders where product gross margin is insufficient to cover fulfillment overhead, addressing the 18.7% loss-making order cohort.
 
 ---
 
-## 6. Architecture of the Automated CLI Pipeline (`run_analysis.py`)
+## 6. Pipeline Architecture (`run_analysis.py`)
 
-### 6.1. Why Build a CLI Pipeline Instead of Solely Relying on Notebooks?
+### Overview
 While Jupyter Notebooks (`.ipynb`) are ideal for iterative experimentation and EDA prototyping, they introduce significant friction in production environments:
 - **State Dependency**: Notebook cells can be run out of order, leading to hidden bugs.
 - **Automation Incompatibility**: CI/CD pipelines, Airflow DAGs, and Docker containers cannot easily execute interactive notebooks without heavy orchestration wrappers.
@@ -142,11 +141,11 @@ The **Automated CLI Pipeline (`run_analysis.py`)** productionizes the complete m
 ========================================================================================
 ```
 
-### 6.2. Stage-by-Stage Technical Breakdown
+### Technical Highlights
 1. **Headless Plotting (`matplotlib.use('Agg')`)**:
-   - Notebooks rely on inline interactive plotting backends. `run_analysis.py` configures the headless `Agg` backend to generate rasterized, 300-DPI charts directly to disk without requiring an X11 window server or GUI display.
+   - Generates rasterized, 300-DPI charts directly to disk without requiring an X11 window server or GUI display.
 2. **Robust Path Resolution**:
-   - Dynamically resolves dataset locations relative to the file's directory (`__file__`), eliminating hardcoded absolute paths (like the Windows paths previously present).
+   - Dynamically resolves dataset locations relative to `__file__`, eliminating hardcoded absolute paths.
 3. **Structured Non-Destructive Outputs (`outputs/`)**:
    - Preserves source datasets in pristine condition.
    - Exports machine-readable JSON metrics (`business_kpis.json`, `classification_report.json`), tabular summaries (`category_bottlenecks.csv`, `delay_distribution.csv`), and text reports (`business_kpis_summary.txt`) for BI ingestion.
@@ -161,7 +160,7 @@ The **Automated CLI Pipeline (`run_analysis.py`)** productionizes the complete m
 
 ```text
 supply-chain-analysis/
-├── README.md                                # Executive documentation & project guide
+├── README.md                                # Project documentation & executive report
 ├── requirements.txt                         # Pinned dependency specifications
 ├── run_analysis.py                          # Automated CLI pipeline execution script
 ├── SupplyChainManagementProject.ipynb        # Fully executed Jupyter Notebook with visual outputs
