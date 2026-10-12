@@ -118,7 +118,46 @@ The model relies exclusively on **pre-fulfillment data** known at the time of pu
 
 ---
 
-## 6. Repository Structure
+## 6. Architecture of the Automated CLI Pipeline (`run_analysis.py`)
+
+### 6.1. Why Build a CLI Pipeline Instead of Solely Relying on Notebooks?
+While Jupyter Notebooks (`.ipynb`) are ideal for iterative experimentation and EDA prototyping, they introduce significant friction in production environments:
+- **State Dependency**: Notebook cells can be run out of order, leading to hidden bugs.
+- **Automation Incompatibility**: CI/CD pipelines, Airflow DAGs, and Docker containers cannot easily execute interactive notebooks without heavy orchestration wrappers.
+- **Output Volatility**: Figures and metrics printed in notebooks are trapped in JSON blobs rather than saved as standalone files for downstream business intelligence dashboards.
+
+The **Automated CLI Pipeline (`run_analysis.py`)** productionizes the complete methodology into a deterministic, headless, one-command script.
+
+```text
+========================================================================================
+                     AUTOMATED CLI PIPELINE EXECUTION STAGES
+========================================================================================
+[Stage 1/7] Ingestion & Path Resolution  ──► Auto-detects archive/ paths with fallback
+[Stage 2/7] Data Cleaning & Cleansing    ──► Drops 33 PII/redundant cols; filters canceled
+[Stage 3/7] Feature Engineering          ──► Computes Processing Time, Delay, Profit Flag
+[Stage 4/7] KPI Computation & Export     ──► Calculates OTIF, P90, Margin Risk -> JSON/TXT
+[Stage 5/7] Visualization Engine (Agg)   ──► Exports 6 publication-grade 300 DPI PNG charts
+[Stage 6/7] Predictive ML Training       ──► Frequency Encoding + SMOTE + Random Forest
+[Stage 7/7] Model & Metrics Persistence  ──► Serializes model.joblib + classification_report
+========================================================================================
+```
+
+### 6.2. Stage-by-Stage Technical Breakdown
+1. **Headless Plotting (`matplotlib.use('Agg')`)**:
+   - Notebooks rely on inline interactive plotting backends. `run_analysis.py` configures the headless `Agg` backend to generate rasterized, 300-DPI charts directly to disk without requiring an X11 window server or GUI display.
+2. **Robust Path Resolution**:
+   - Dynamically resolves dataset locations relative to the file's directory (`__file__`), eliminating hardcoded absolute paths (like the Windows paths previously present).
+3. **Structured Non-Destructive Outputs (`outputs/`)**:
+   - Preserves source datasets in pristine condition.
+   - Exports machine-readable JSON metrics (`business_kpis.json`, `classification_report.json`), tabular summaries (`category_bottlenecks.csv`, `delay_distribution.csv`), and text reports (`business_kpis_summary.txt`) for BI ingestion.
+4. **Reproducible Machine Learning**:
+   - Enforces a deterministic random seed (`random_state=42`), stratified sampling (`stratify=y`), and parallel multi-core training (`n_jobs=-1`), executing the entire 172K-row ML training workflow in under **3 seconds**.
+5. **Model Serialization**:
+   - Serializes the fitted Random Forest classifier via `joblib.dump()` to `outputs/models/random_forest_model.joblib` for inference serving.
+
+---
+
+## 7. Repository Structure
 
 ```text
 supply-chain-analysis/
@@ -157,7 +196,7 @@ supply-chain-analysis/
 
 ---
 
-## 7. Setup & Execution Guide
+## 8. Setup & Execution Guide
 
 ### Step 1: Clone Repository
 ```bash
@@ -175,9 +214,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Step 3: Run the Analysis Pipeline
+### Step 3: Run the Analysis Pipeline (Automated CLI)
 ```bash
-# Execute complete analysis, generate reports, charts, and train ML model
+# Execute complete analysis, generate reports, charts, and train ML model (~9 seconds)
 python run_analysis.py
 ```
 
