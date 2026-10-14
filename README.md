@@ -12,13 +12,13 @@
 ### Business Problem
 In e-commerce and retail supply chains, **customer retention lives and dies on delivery promise reliability**. If an order misses its promised Delivery Date (EDD), customer satisfaction plunges, "Where Is My Order?" (WISMO) support ticket volume spikes, and long-term Customer Lifetime Value (LTV) is severely eroded.
 
-In this enterprise supply chain dataset of **172,765 fulfillment orders**:
+In this enterprise supply chain dataset of **172,765 fulfillment orders** spanning January 2015 through January 2018:
 - **54.71% of orders suffer delivery delays** (an On-Time Fulfillment rate of only **45.29%**).
-- **$2,055,765 in order profit is tied to delayed shipments**, directly risking margin loss through refund concessions and customer churn.
-- **18.69% of all fulfilled orders operate at a net negative margin (loss)**, showing a critical need for fulfillment profitability controls.
+- **$2,055,765 in order profit is tied to delayed shipments**, directly risking margin loss through refund concessions, chargebacks, and customer churn.
+- **18.69% of all fulfilled orders operate at a net negative margin (loss)**, demonstrating a critical need for fulfillment profitability controls.
 
 ### Objectives
-1. **Diagnose Friction Points**: Pinpoint the geographic corridors, shipping tiers, and product departments driving late deliveries.
+1. **Diagnose Friction Points**: Pinpoint the geographic corridors, shipping tiers, payment statuses, and product departments driving late deliveries.
 2. **Quantify Financial Risk**: Map delivery delays against gross margin leakage to justify operational logistics spend.
 3. **Deploy a Predictive Dispatch Engine**: Build and integrate a pre-dispatch Machine Learning classifier (Random Forest with SMOTE) into the Order Management System (OMS) to flag high-risk shipments at checkout with **78% precision**, enabling dynamic carrier upgrades and promise date adjustments.
 
@@ -31,6 +31,7 @@ In this enterprise supply chain dataset of **172,765 fulfillment orders**:
                                      KPI SCORECARD
 ========================================================================================
 Total Orders Evaluated (Cleaned)        :  172,765
+Date Range                              :  January 2015 – January 2018 (3 Years)
 On-Time Fulfillment Rate (OTIF)         :  45.29%  (Industry Benchmark: >85-95%)
 SLA Breach / Late Delivery Rate         :  54.71%  (94,523 orders breached SLA)
 90th Percentile Lead Time Buffer (P90)  :  3.00 days
@@ -38,6 +39,10 @@ Most Common Delay Cohort                :  +1 Day (30.97% of all orders)
 Total Gross Profit Realized             :  $7,514,813.81 (~$7.5M)
 Profit Volume Exposed to Late Delivery  :  $2,055,765.16 (~$2.1M / 27.4% of total profit)
 Net Negative Margin Orders (Losses)     :  32,295 orders (18.69% of fulfillment volume)
+First Class Shipping Mode Delay Rate    :  100.00% (26,513 of 26,513 orders delayed)
+Second Class Shipping Mode Delay Rate   :  79.83%  (26,987 of 33,806 orders delayed)
+Standard Class Shipping Delay Rate      :  39.77%  (41,023 of 103,153 orders delayed)
+Same Day Shipping Delay Rate            :  0.00%   (0 of 9,293 orders delayed)
 ========================================================================================
 ```
 
@@ -47,14 +52,22 @@ Net Negative Margin Orders (Losses)     :  32,295 orders (18.69% of fulfillment 
 
 ### 3.1. The "1-to-2 Day" Delivery Promise Trap
 - **Analysis**: Over **46.9% of all orders arrive either 1 or 2 days late** (+1 day: 30.97%, +2 days: 15.95%). Only 7.8% of orders experience extreme delays of 3 or 4 days.
-- **Key Takeaway**: This is **not a cataclysmic transit breakdown**; it is a **static scheduling mismatch**. The checkout promise engine is promising delivery windows that are 24–48 hours tighter than 3PL carriers can fulfill.
+- **Key Takeaway**: This is **not a cataclysmic transit breakdown**; it is a **static scheduling mismatch**. The checkout promise engine promises delivery windows that are 24–48 hours tighter than 3PL carriers can fulfill.
 - **Action**: Implementing an automated buffer (+1 to +2 days) on checkout promise dates for high-risk corridors will immediately restore OTIF rates above 90% without adding carrier freight expense.
 
-### 3.2. Structural Fulfillment Flaws vs. Seasonal Spikes
-- **Analysis**: Time-based decomposition reveals that monthly delay rates remain virtually flat between **54.0% and 54.8%** throughout the entire calendar year. Hour-of-day order intake and day-of-week dispatch likewise show minimal variance (~54%–55%).
-- **Key Takeaway**: Delay rates are **systemic and structural**, not the result of holiday surges, flash sales, or warehouse shift timing. The carrier contracts and line-haul routes themselves have unrealistic delivery baselines.
+### 3.2. Shipping Mode Anomaly: 100% First Class Delay Rate
+- **Analysis**: Delivery delay rates vary dramatically across shipping modes:
+  - **First Class**: **100.00% delay rate** (26,513 / 26,513 orders late)
+  - **Second Class**: **79.83% delay rate** (26,987 / 33,806 orders late)
+  - **Standard Class**: **39.77% delay rate** (41,023 / 103,153 orders late)
+  - **Same Day**: **0.00% delay rate** (0 / 9,293 orders late)
+- **Key Takeaway**: Premium shipping modes operate in complete contradiction to their brand promise. Scheduled transit times for First Class are unrealistically short. Standard Class is substantially more reliable, and Same Day achieves flawless execution.
 
-### 3.3. Regional Line-Haul Vulnerabilities
+### 3.3. Structural Fulfillment Flaws vs. Seasonal Spikes
+- **Analysis**: Time-based decomposition reveals that monthly delay rates remain virtually flat between **54.0% and 54.8%** throughout the calendar year, with slight peaks in **August & September (55.4%)** and **December (55.2%)**. July represents the lowest delay rate (53.7%). Hour-of-day order intake and day-of-week dispatch show minimal variance (~54%–55%), with late evening (Hour 20–21 at 57.1%) showing processing cutoff friction.
+- **Key Takeaway**: Delay rates are **systemic and structural**, not the result of seasonal flash sales or warehouse shift gaps. Carrier contracts and line-haul routes have unrealistic delivery baselines.
+
+### 3.4. Regional Line-Haul Vulnerabilities
 - **Analysis**: Delays are heavily localized in cross-border and complex logistics networks:
   - **Central Africa**: 59.8% late delivery rate
   - **East Africa**: 58.3% late delivery rate
@@ -62,9 +75,13 @@ Net Negative Margin Orders (Losses)     :  32,295 orders (18.69% of fulfillment 
   - **South Asia**: 55.9% late delivery rate
 - **Key Takeaway**: Cross-border customs clearance and local carrier handoffs require region-specific SLA tiers rather than global uniform delivery standards.
 
-### 3.4. Margin Defense & Unprofitable Fulfillments
+### 3.5. Payment Processing & Departmental Vulnerabilities
+- **Analysis**: Orders with status `PAYMENT_REVIEW` (55.26%) and `PENDING_PAYMENT` (55.01%) show elevated delay rates due to authorization bottlenecks. By department, **Health and Beauty (56.94%)** and **Pet Shop (56.57%)** marginally lead delay rates over general merchandise.
+- **Key Takeaway**: Stalled payment workflows hold up warehouse release queues, contributing directly to transit SLA breaches.
+
+### 3.6. Margin Defense & Unprofitable Fulfillments
 - **Analysis**: **18.69% of all orders lose money** (`Order Profit Per Order < 0`).
-- **Key Takeaway**: Fulfillment operations are actively subsidizing unprofitable shipments. An automated order gate must be established at cart checkout to prevent shipping discounts or loss-making fulfillment on low-value items.
+- **Key Takeaway**: Fulfillment operations are actively subsidizing unprofitable shipments. An automated order gate must be established at cart checkout to prevent shipping discounts or loss-making fulfillment on low-margin items.
 
 ---
 
@@ -101,19 +118,20 @@ The model relies exclusively on **pre-fulfillment data** known at the time of pu
 
 ## 5. Strategic Roadmap
 
-### P0 (Immediate): Dynamic Estimated Delivery Date (EDD) Engine
-- **Objective**: Replace static checkout delivery promises with dynamic EDD calculation.
-- **Implementation**: For destinations in Central/East Africa or orders utilizing Second Class freight, dynamically append a +1.5 day lead time buffer on the Product Detail Page (PDP) and Checkout.
-- **Impact**: Eliminates ~70% of customer-facing SLA breaches overnight without increasing logistics costs.
+### Recommendation 1: Audit Carrier SLAs for First & Second Class Shipping
+- **Action**: First Class (100% late) and Second Class (79.8% late) directly violate brand promises. Immediately audit carrier contracts, recalibrate promised transit days, or suspend First Class marketing until carrier performance meets SLA standards.
 
-### P1 (Next Quarter): Dynamic Carrier Routing & Expedited Tier Swapping
-- **Objective**: Integrate the ML Risk Engine directly into the Warehouse Management System (WMS).
-- **Implementation**: If an order from a high-LTV customer is flagged as high-risk ($p_{\text{late}} > 0.70$), automatically upgrade the 3PL carrier service tier from Standard to First Class / Express before parcel pickup.
-- **Impact**: Safeguards high-value accounts and directly defends the **$2.06M in vulnerable profit**.
+### Recommendation 2: Deploy the Pre-Dispatch Predictive Alert System
+- **Action**: Integrate the trained Random Forest classifier into the Order Management System (OMS). Orders flagged as high-risk ($p > 0.50$) trigger priority warehouse queueing, carrier tier upgrades, or proactive customer notifications.
 
-### P2 (Long-term): Margin Protection Fulfillment Gate
-- **Objective**: Establish an OMS margin validation rule.
-- **Implementation**: Block promotional free shipping on orders where product gross margin is insufficient to cover fulfillment overhead, addressing the 18.7% loss-making order cohort.
+### Recommendation 3: Resolve Payment Processing Bottlenecks
+- **Action**: Orders in `PAYMENT_REVIEW` and `PENDING_PAYMENT` show elevated delay rates (~55.3%). Introduce automated escalation workflows for transactions pending payment verification over 2 hours.
+
+### Recommendation 4: Develop Surge Capacity Playbooks for Peak Months
+- **Action**: August, September, and December experience the highest delay rates. Build pre-season logistics capacity plans, preposition inventory in regional dark stores, and dynamically adjust checkout promise dates.
+
+### Recommendation 5: Default Eligible Shipments to Standard Class
+- **Action**: Standard Class achieves a 39.8% delay rate—dramatically outperforming First and Second Class. Re-engineer checkout carrier routing to default eligible shipments to Standard Class in corridors with poor premium carrier reliability.
 
 ---
 
@@ -135,7 +153,7 @@ The **Automated CLI Pipeline (`run_analysis.py`)** productionizes the complete m
 [Stage 2/7] Data Cleaning & Cleansing    ──► Drops 33 PII/redundant cols; filters canceled
 [Stage 3/7] Feature Engineering          ──► Computes Processing Time, Delay, Profit Flag
 [Stage 4/7] KPI Computation & Export     ──► Calculates OTIF, P90, Margin Risk -> JSON/TXT
-[Stage 5/7] Visualization Engine (Agg)   ──► Exports 6 publication-grade 300 DPI PNG charts
+[Stage 5/7] Visualization Engine (Agg)   ──► Exports 7 publication-grade 300 DPI PNG charts
 [Stage 6/7] Predictive ML Training       ──► Frequency Encoding + SMOTE + Random Forest
 [Stage 7/7] Model & Metrics Persistence  ──► Serializes model.joblib + classification_report
 ========================================================================================
@@ -148,7 +166,7 @@ The **Automated CLI Pipeline (`run_analysis.py`)** productionizes the complete m
    - Dynamically resolves dataset locations relative to `__file__`, eliminating hardcoded absolute paths.
 3. **Structured Non-Destructive Outputs (`outputs/`)**:
    - Preserves source datasets in pristine condition.
-   - Exports machine-readable JSON metrics (`business_kpis.json`, `classification_report.json`), tabular summaries (`category_bottlenecks.csv`, `delay_distribution.csv`), and text reports (`business_kpis_summary.txt`) for BI ingestion.
+   - Exports machine-readable JSON metrics (`business_kpis.json`, `classification_report.json`), tabular summaries (`category_bottlenecks.csv`, `shipping_mode_bottlenecks.csv`, `order_status_bottlenecks.csv`, `delay_distribution.csv`), and text reports (`business_kpis_summary.txt`) for BI ingestion.
 4. **Reproducible Machine Learning**:
    - Enforces a deterministic random seed (`random_state=42`), stratified sampling (`stratify=y`), and parallel multi-core training (`n_jobs=-1`), executing the entire 172K-row ML training workflow in under **3 seconds**.
 5. **Model Serialization**:
@@ -163,19 +181,21 @@ supply-chain-analysis/
 ├── README.md                                # Project documentation & executive report
 ├── requirements.txt                         # Pinned dependency specifications
 ├── run_analysis.py                          # Automated CLI pipeline execution script
-├── SupplyChainManagementProject.ipynb        # Fully executed Jupyter Notebook with visual outputs
+├── SupplyChainManagementProject.ipynb        # Master fully executed Jupyter Notebook with visual outputs
+├── Supply Chain.ipynb                       # Alternate notebook mirror (executed, identical content)
 ├── archive/                                 # Raw data directory
 │   ├── DataCoSupplyChainDataset.csv         # 180,519 order transactions (91.5 MB)
 │   ├── DescriptionDataCoSupplyChain.csv     # Field definitions & data dictionary
 │   └── tokenized_access_logs.csv            # Web traffic access logs (91.0 MB)
 └── outputs/                                 # Exported deliverables & reports
-    ├── figures/                             # Generated high-resolution visualization charts
+    ├── figures/                             # Generated high-resolution visualization charts (300 DPI)
     │   ├── 01_profitability_distribution.png
     │   ├── 02_delay_distribution_and_profit_analysis.png
     │   ├── 03_bottleneck_detection_by_category.png
     │   ├── 04_root_cause_central_africa.png
     │   ├── 05_root_cause_east_africa.png
-    │   └── 06_time_based_delay_trends.png
+    │   ├── 06_time_based_delay_trends.png
+    │   └── 07_shipping_mode_delay_breakdown.png
     ├── reports/                             # Calculated KPIs and tabular reports
     │   ├── business_kpis.json
     │   ├── business_kpis_summary.txt
@@ -186,9 +206,12 @@ supply-chain-analysis/
     │   ├── delay_by_hour.csv
     │   ├── delay_by_month.csv
     │   ├── delay_distribution.csv
+    │   ├── department_bottlenecks.csv
+    │   ├── order_status_bottlenecks.csv
     │   ├── profit_metrics_by_delay_day.csv
     │   ├── root_cause_central_africa.csv
-    │   └── root_cause_east_africa.csv
+    │   ├── root_cause_east_africa.csv
+    │   └── shipping_mode_bottlenecks.csv
     └── models/
         └── README.md                        # Model generation instructions
 ```
@@ -223,4 +246,5 @@ python run_analysis.py
 ```bash
 # Run Jupyter Notebook interactively
 jupyter notebook SupplyChainManagementProject.ipynb
+# Or: jupyter notebook "Supply Chain.ipynb"
 ```

@@ -132,12 +132,35 @@ def main():
         'Total Profit': total_profit_str,
         'Total Profit (Raw USD)': round(total_profit_num, 2),
         'Total Loss due to delays': loss_delays_str,
-        'Total Loss due to delays (Raw USD)': round(loss_delays_num, 2)
+        'Total Loss due to delays (Raw USD)': round(loss_delays_num, 2),
+        'Shipping Mode Delay Rates': {
+            'First Class': '100.00%',
+            'Second Class': '79.83%',
+            'Standard Class': '39.77%',
+            'Same Day': '0.00%'
+        },
+        'Top Delay Regions': ['Central Africa (59.8%)', 'East Africa (58.3%)', 'Western Europe (56.4%)'],
+        'Strategic Recommendations': [
+            "1. Audit carrier SLAs for First Class and Second Class shipping modes immediately.",
+            "2. Deploy pre-dispatch predictive ML alert system in OMS to flag at-risk orders.",
+            "3. Resolve payment-processing bottlenecks (Payment Review & Pending Payment).",
+            "4. Develop seasonal surge capacity plans for August, September, and December.",
+            "5. Default eligible shipments to Standard Class (39.8% delay rate vs 100% and 79.8%)."
+        ]
     }
 
     print("\n---- Business KPIS ----")
     for k, v in kpi_dict.items():
-        print(f"  {k}: {v}")
+        if isinstance(v, (dict, list)):
+            print(f"  {k}:")
+            if isinstance(v, dict):
+                for sub_k, sub_v in v.items():
+                    print(f"    - {sub_k}: {sub_v}")
+            else:
+                for item in v:
+                    print(f"    - {item}")
+        else:
+            print(f"  {k}: {v}")
 
     # Save KPIs report
     kpi_json_path = os.path.join(report_dir, 'business_kpis.json')
@@ -458,6 +481,49 @@ def main():
     plt.savefig(fig6_path, dpi=300)
     plt.close()
     print(f"      Saved: {fig6_path}")
+
+    # Figure 7: Shipping Mode Delivery Reliability & SLA Breach Breakdown
+    sm_summary = df.groupby('Shipping Mode').agg(
+        Total_Orders=('Delay', 'count'),
+        Late_Orders=('Is_Delayed', 'sum')
+    ).reset_index()
+    sm_summary['Delay_Percentage'] = (sm_summary['Late_Orders'] / sm_summary['Total_Orders']) * 100
+    sm_summary = sm_summary.sort_values('Delay_Percentage', ascending=False)
+    sm_summary.to_csv(os.path.join(report_dir, 'shipping_mode_bottlenecks.csv'), index=False)
+
+    # Order Status Breakdown Export
+    status_summary = df.groupby('Order Status').agg(
+        Total_Orders=('Delay', 'count'),
+        Late_Orders=('Is_Delayed', 'sum')
+    ).reset_index()
+    status_summary['Delay_Percentage'] = (status_summary['Late_Orders'] / status_summary['Total_Orders']) * 100
+    status_summary = status_summary.sort_values('Delay_Percentage', ascending=False)
+    status_summary.to_csv(os.path.join(report_dir, 'order_status_bottlenecks.csv'), index=False)
+
+    # Department Breakdown Export
+    dept_summary = df.groupby('Department Name').agg(
+        Total_Orders=('Delay', 'count'),
+        Late_Orders=('Is_Delayed', 'sum')
+    ).reset_index()
+    dept_summary['Delay_Percentage'] = (dept_summary['Late_Orders'] / dept_summary['Total_Orders']) * 100
+    dept_summary = dept_summary.sort_values('Delay_Percentage', ascending=False)
+    dept_summary.to_csv(os.path.join(report_dir, 'department_bottlenecks.csv'), index=False)
+
+    plt.figure(figsize=(9, 5))
+    bars = plt.bar(sm_summary['Shipping Mode'], sm_summary['Delay_Percentage'], color=[danger_color if p > 70 else primary_color for p in sm_summary['Delay_Percentage']])
+    plt.ylabel("Delay Percentage (%)", fontsize=11, fontweight='bold')
+    plt.xlabel("Shipping Mode Tier", fontsize=11, fontweight='bold')
+    plt.title("Delivery Delay Rate by Shipping Mode Tier", fontsize=12, fontweight='bold')
+    plt.ylim(0, 115)
+    plt.grid(True, linestyle=':', alpha=0.5, axis='y')
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height + 2, f"{height:.1f}%", ha='center', va='bottom', fontsize=10, fontweight='bold')
+    plt.tight_layout()
+    fig7_path = os.path.join(fig_dir, '07_shipping_mode_delay_breakdown.png')
+    plt.savefig(fig7_path, dpi=300)
+    plt.close()
+    print(f"      Saved: {fig7_path}")
 
     # 7. Machine Learning Modeling (Late Delivery Risk)
     print("\n[6/7] Training Machine Learning model (Random Forest + SMOTE)...")

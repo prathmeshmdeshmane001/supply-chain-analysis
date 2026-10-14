@@ -9,3 +9,6 @@ Total Profit: 7.5M $
 Total Profit (Raw USD): 7514813.81
 Total Loss due to delays: 2.1M $
 Total Loss due to delays (Raw USD): 2055765.16
+Shipping Mode Delay Rates: {'First Class': '100.00%', 'Second Class': '79.83%', 'Standard Class': '39.77%', 'Same Day': '0.00%'}
+Top Delay Regions: ['Central Africa (59.8%)', 'East Africa (58.3%)', 'Western Europe (56.4%)']
+Strategic Recommendations: ['1. Audit carrier SLAs for First Class and Second Class shipping modes immediately.', '2. Deploy pre-dispatch predictive ML alert system in OMS to flag at-risk orders.', '3. Resolve payment-processing bottlenecks (Payment Review & Pending Payment).', '4. Develop seasonal surge capacity plans for August, September, and December.', '5. Default eligible shipments to Standard Class (39.8% delay rate vs 100% and 79.8%).']
