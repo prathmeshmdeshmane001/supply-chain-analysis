@@ -5,9 +5,6 @@
     <img src="brag-output/brag.gif" alt="Supply Chain Analysis Video Walkthrough" width="100%" style="max-width: 900px; border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,0.35);" />
   </a>
 </p>
-<p align="center">
-  <em>▶️ <strong>Autoplaying Visual Briefing (20s)</strong>: Playing automatically. Click the video or <a href="brag-output/brag.mp4">here to watch with full audio &amp; sound effects</a>.</em>
-</p>
 
 ### An End-to-End Analytics & Machine Learning Pipeline for Delivery Reliability and Margin Defense
 
