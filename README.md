@@ -1,9 +1,27 @@
 # Supply Chain Logistics Optimization & Predictive SLA Risk Engine
+
+<p align="center">
+  <video src="brag-output/brag.mp4" poster="brag-output/brag.jpg" controls="controls" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline" width="100%" style="max-width: 900px; border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,0.35);">
+    <a href="brag-output/brag.mp4">
+      <img src="brag-output/brag.gif" alt="Supply Chain Analysis Video Walkthrough" width="100%" style="max-width: 900px; border-radius: 12px;" />
+    </a>
+  </video>
+</p>
+<p align="center">
+  <em>🎥 <strong>Visual Executive Briefing (20s)</strong>: Animated breakdown of the delivery failure anomaly, margin exposure, and predictive mitigation engine. (<a href="brag-output/brag.mp4">Direct Video Link</a>)</em>
+</p>
+
 ### An End-to-End Analytics & Machine Learning Pipeline for Delivery Reliability and Margin Defense
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/prathmeshmdeshmane001/supply-chain-analysis)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-brightgreen.svg?logo=python)](https://python.org)
 [![Status](https://img.shields.io/badge/Pipeline-Verified%20%26%20Active-success)](#)
+
+> **Video Walkthrough & Architecture Explanation**:
+> - **0:00 – 0:04 (The Shipping SLA Paradox)**: Analysis of 172,765 fulfillment records reveals an operational inversion: customers paying extra for *First Class Priority* suffered a **100.0% late delivery rate** (26,513 of 26,513 delayed), while *Same Day* achieved flawless 0% delay execution.
+> - **0:04 – 0:09 (The $2.06M Margin Bleed)**: Conventional BI dashboards tracked record gross revenue ($35.8M) but completely obscured a **54.71% fleet-wide delay rate**, silently putting **$2,055,765 in net profit** at direct risk from chargebacks and churn.
+> - **0:09 – 0:15 (Predictive ML Intervention)**: A production Random Forest classifier with SMOTE oversampling evaluates dispatch risk at cart checkout. For high-risk shipments (e.g., 94.2% delay probability), it triggers dynamic carrier re-routing, dropping failure risk to 4.1% and protecting +$142.50 in order margin.
+> - **0:15 – 0:20 (Production Pipeline)**: End-to-end architecture with 78% model precision, automated CLI batch execution, and interactive Streamlit KPI dashboard.
 
 ---
 

@@ -1,0 +1,1214 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>End to End Supply Chain Analysis — Launch Video</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg-main: #0b0f19;
+        --card-bg: #131b2e;
+        --card-border: rgba(255, 255, 255, 0.09);
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent-teal: #2dd4bf;
+        --accent-red: #f87171;
+        --accent-red-bg: #450a0a;
+        --accent-green: #34d399;
+        --accent-green-bg: #064e3b;
+        --accent-amber: #fbbf24;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg-main);
+        font-family: var(--font-sans);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        background: radial-gradient(circle at 50% 15%, #18233c 0%, #0b0f19 75%);
+        overflow: hidden;
+      }
+
+      /* Subtle Grid Background */
+      .grid-pattern {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 80px 80px;
+        pointer-events: none;
+      }
+
+      /* Persistent Top Nav Bar */
+      .top-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 72px;
+        padding: 0 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--card-border);
+        background: rgba(11, 15, 25, 0.7);
+        backdrop-filter: blur(12px);
+        z-index: 100;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .nav-logo {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent-teal);
+        box-shadow: 0 0 12px var(--accent-teal);
+      }
+
+      .nav-title {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-primary);
+      }
+
+      .nav-pill {
+        font-size: 13px;
+        font-weight: 600;
+        font-family: var(--font-mono);
+        color: var(--accent-teal);
+        background: rgba(45, 212, 191, 0.12);
+        padding: 4px 12px;
+        border-radius: 9999px;
+        border: 1px solid rgba(45, 212, 191, 0.25);
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        font-size: 14px;
+        font-family: var(--font-mono);
+        color: var(--text-secondary);
+      }
+
+      .pulse-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent-green);
+        box-shadow: 0 0 8px var(--accent-green);
+        margin-right: 8px;
+      }
+
+      /* Common Scene Stage */
+      .scene {
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 1920px;
+        height: 1008px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 96px;
+      }
+
+      .kicker-tag {
+        font-size: 14px;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent-teal);
+        background: rgba(45, 212, 191, 0.1);
+        padding: 6px 16px;
+        border-radius: 9999px;
+        border: 1px solid rgba(45, 212, 191, 0.25);
+        margin-bottom: 24px;
+      }
+
+      .kicker-tag.alert {
+        color: var(--accent-red);
+        background: var(--accent-red-bg);
+        border-color: rgba(248, 113, 113, 0.35);
+      }
+
+      .headline {
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        text-align: center;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+      }
+
+      .headline span.highlight-red {
+        color: var(--accent-red);
+      }
+
+      .headline span.highlight-teal {
+        color: var(--accent-teal);
+      }
+
+      .sub-headline {
+        font-size: 28px;
+        font-weight: 400;
+        color: var(--text-secondary);
+        text-align: center;
+        max-width: 960px;
+        line-height: 1.5;
+        margin-bottom: 56px;
+      }
+
+      /* Scene 1: Shipping Comparison Bars */
+      .shipping-grid {
+        width: 100%;
+        max-width: 1120px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .shipping-row {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shipping-row.highlight-fail {
+        border-color: rgba(248, 113, 113, 0.5);
+        background: linear-gradient(90deg, rgba(69, 10, 10, 0.4) 0%, #131b2e 100%);
+        box-shadow: 0 0 35px rgba(239, 68, 68, 0.2);
+      }
+
+      .ship-tier {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 300px;
+      }
+
+      .ship-tier-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+
+      .ship-name {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .ship-sla {
+        font-size: 14px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+      }
+
+      .ship-bar-wrap {
+        flex: 1;
+        margin: 0 40px;
+        height: 18px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 9999px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .ship-bar-fill {
+        height: 100%;
+        border-radius: 9999px;
+        transform-origin: left;
+      }
+
+      .fill-green {
+        background: var(--accent-green);
+        box-shadow: 0 0 14px var(--accent-green);
+      }
+
+      .fill-slate {
+        background: var(--text-secondary);
+      }
+
+      .fill-amber {
+        background: var(--accent-amber);
+      }
+
+      .fill-red {
+        background: var(--accent-red);
+        box-shadow: 0 0 16px var(--accent-red);
+      }
+
+      .ship-stat-badge {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 700;
+        padding: 8px 18px;
+        border-radius: 8px;
+        min-width: 160px;
+        text-align: center;
+      }
+
+      .badge-green {
+        color: var(--accent-green);
+        background: var(--accent-green-bg);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+
+      .badge-neutral {
+        color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .badge-amber {
+        color: var(--accent-amber);
+        background: rgba(251, 191, 36, 0.15);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+      }
+
+      .badge-red {
+        color: var(--accent-red);
+        background: var(--accent-red-bg);
+        border: 1px solid rgba(248, 113, 113, 0.4);
+      }
+
+      /* Scene 2: 3 Cards Beat Grid */
+      .cards-grid {
+        width: 100%;
+        max-width: 1380px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 36px;
+        margin-bottom: 48px;
+      }
+
+      .metric-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 44px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 380px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      }
+
+      .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--accent-teal);
+      }
+
+      .metric-card.card-danger::before {
+        background: var(--accent-red);
+      }
+
+      .metric-card.card-warning::before {
+        background: var(--accent-amber);
+      }
+
+      .card-header-label {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+
+      .card-big-stat {
+        font-family: var(--font-mono);
+        font-size: 72px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin: 24px 0 16px 0;
+        color: var(--text-primary);
+      }
+
+      .card-big-stat.text-red {
+        color: var(--accent-red);
+        text-shadow: 0 0 24px rgba(248, 113, 113, 0.3);
+      }
+
+      .card-big-stat.text-amber {
+        color: var(--accent-amber);
+        text-shadow: 0 0 24px rgba(251, 191, 36, 0.3);
+      }
+
+      .card-desc {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+      }
+
+      .card-subdetail {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+
+      .callout-banner {
+        max-width: 1100px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 18px;
+        color: var(--text-secondary);
+      }
+
+      .callout-banner strong {
+        color: var(--text-primary);
+      }
+
+      /* Scene 3: Predictive Dispatch Console */
+      .dispatch-console {
+        width: 100%;
+        max-width: 1200px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .console-topbar {
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid var(--card-border);
+        padding: 18px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .console-dots {
+        display: flex;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .dot.red { background: #ef4444; }
+      .dot.yellow { background: #f59e0b; }
+      .dot.green { background: #10b981; }
+
+      .console-id {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent-teal);
+        letter-spacing: 0.1em;
+      }
+
+      .console-body {
+        padding: 36px 40px;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .order-metadata {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .meta-item {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 16px;
+      }
+
+      .meta-label {
+        color: var(--text-secondary);
+      }
+
+      .meta-val {
+        font-family: var(--font-mono);
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .prediction-panel {
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+      }
+
+      .risk-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .risk-badge {
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 6px;
+      }
+
+      .risk-score-display {
+        font-family: var(--font-mono);
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .action-box {
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+        padding: 16px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-secondary);
+      }
+
+      .action-box strong {
+        color: var(--accent-teal);
+      }
+
+      .mitigate-btn {
+        width: 100%;
+        padding: 16px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .btn-danger {
+        background: var(--accent-red);
+        color: #ffffff;
+        box-shadow: 0 0 20px rgba(248, 113, 113, 0.4);
+      }
+
+      .btn-success {
+        background: #047857;
+        color: #ffffff;
+        box-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+        border: 1px solid rgba(52, 211, 153, 0.5);
+      }
+
+      /* Animated Simulated Mouse Cursor */
+      .fake-cursor {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      /* Scene 4: Hero Summary & Outro */
+      .hero-outro {
+        max-width: 1180px;
+        width: 100%;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 64px 72px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-outro::before {
+        content: '';
+        position: absolute;
+        top: -150px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(45, 212, 191, 0.18) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .hero-title {
+        font-size: 58px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        margin: 16px 0 12px 0;
+        color: var(--text-primary);
+      }
+
+      .hero-tagline {
+        font-size: 28px;
+        color: var(--text-secondary);
+        max-width: 900px;
+        line-height: 1.4;
+        margin-bottom: 40px;
+      }
+
+      .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: center;
+        margin-bottom: 48px;
+      }
+
+      .feature-pill {
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        padding: 10px 22px;
+        border-radius: 9999px;
+      }
+
+      .hero-author-box {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-top: 28px;
+        border-top: 1px solid var(--card-border);
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .author-name {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .author-role {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .github-cta {
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--accent-teal);
+        background: rgba(45, 212, 191, 0.12);
+        border: 1px solid rgba(45, 212, 191, 0.35);
+        padding: 10px 24px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main Composition Container -->
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="20"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="grid-pattern"></div>
+
+      <!-- Persistent Top Navigation -->
+      <header class="top-nav" data-layout-ignore="true">
+        <div class="nav-left">
+          <div class="nav-logo"></div>
+          <span class="nav-title">End to End Supply Chain Analysis</span>
+          <span class="nav-pill">DataCo Global</span>
+        </div>
+        <div class="nav-right">
+          <div><span class="pulse-dot"></span>172,765 ORDERS AUDITED</div>
+          <div>ML PIPELINE: ACTIVE</div>
+        </div>
+      </header>
+
+      <!-- SCENE 1 (0.0s – 4.5s): The Shipping Paradox -->
+      <section id="scene1" class="scene">
+        <div id="s1-kicker" class="kicker-tag alert" data-layout-ignore="true">SHIPPING SLA AUDIT</div>
+        <h1 id="s1-title" class="headline">
+          Pay extra for First Class? <span class="highlight-red">That'll be 100% late.</span>
+        </h1>
+        <p id="s1-sub" class="sub-headline">
+          Analysis of 172,765 shipments shows delivery guarantees invert under premium freight.
+        </p>
+
+        <div id="s1-grid" class="shipping-grid">
+          <!-- Same Day -->
+          <div class="shipping-row">
+            <div class="ship-tier">
+              <div class="ship-tier-icon" data-layout-ignore="true">⚡</div>
+              <div>
+                <div class="ship-name">Same Day</div>
+                <div class="ship-sla" data-layout-ignore="true">Target: 0 Days</div>
+              </div>
+            </div>
+            <div class="ship-bar-wrap">
+              <div class="ship-bar-fill fill-green" style="width: 100%;"></div>
+            </div>
+            <div class="ship-stat-badge badge-green" data-layout-ignore="true">0.0% LATE</div>
+          </div>
+
+          <!-- Standard Class -->
+          <div class="shipping-row">
+            <div class="ship-tier">
+              <div class="ship-tier-icon" data-layout-ignore="true">📦</div>
+              <div>
+                <div class="ship-name">Standard Class</div>
+                <div class="ship-sla" data-layout-ignore="true">Target: 4 Days</div>
+              </div>
+            </div>
+            <div class="ship-bar-wrap">
+              <div class="ship-bar-fill fill-slate" style="width: 39.8%;"></div>
+            </div>
+            <div class="ship-stat-badge badge-neutral" data-layout-ignore="true">39.8% LATE</div>
+          </div>
+
+          <!-- Second Class -->
+          <div class="shipping-row">
+            <div class="ship-tier">
+              <div class="ship-tier-icon" data-layout-ignore="true">🚛</div>
+              <div>
+                <div class="ship-name">Second Class</div>
+                <div class="ship-sla" data-layout-ignore="true">Target: 2 Days</div>
+              </div>
+            </div>
+            <div class="ship-bar-wrap">
+              <div class="ship-bar-fill fill-amber" style="width: 79.8%;"></div>
+            </div>
+            <div class="ship-stat-badge badge-amber" data-layout-ignore="true">79.8% LATE</div>
+          </div>
+
+          <!-- First Class (SLAM REVEAL) -->
+          <div id="s1-first-class" class="shipping-row highlight-fail">
+            <div class="ship-tier">
+              <div class="ship-tier-icon" data-layout-ignore="true">✈️</div>
+              <div>
+                <div class="ship-name">First Class Priority</div>
+                <div class="ship-sla" data-layout-ignore="true">Target: 1 Day</div>
+              </div>
+            </div>
+            <div class="ship-bar-wrap">
+              <div class="ship-bar-fill fill-red" style="width: 100%;"></div>
+            </div>
+            <div class="ship-stat-badge badge-red" data-layout-ignore="true">100.0% LATE</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 2 (4.5s – 9.5s): The Margin Bleed -->
+      <section id="scene2" class="scene" style="opacity: 0;">
+        <div id="s2-kicker" class="kicker-tag" data-layout-ignore="true">EXECUTIVE REVENUE BLINDSPOT</div>
+        <h1 id="s2-title" class="headline">
+          Standard dashboards hid a <span class="highlight-red">$2,055,765</span> leak.
+        </h1>
+        <p id="s2-sub" class="sub-headline">
+          Traditional BI only tracked gross sales. It never accounted for customer churn penalty.
+        </p>
+
+        <div class="cards-grid">
+          <!-- Card 1 (Snaps on beat 5.03s) -->
+          <div id="card1" class="metric-card">
+            <div class="card-header-label" data-layout-ignore="true">System-Wide Failure</div>
+            <div class="card-big-stat">54.71%</div>
+            <div>
+              <div class="card-desc">Fleet-Wide Late Rate</div>
+              <div class="card-subdetail" data-layout-ignore="true">94,528 total shipments missed guaranteed SLA window.</div>
+            </div>
+          </div>
+
+          <!-- Card 2 (Snaps on beat 6.03s) -->
+          <div id="card2" class="metric-card card-danger">
+            <div class="card-header-label" data-layout-ignore="true">Expedited Breakdown</div>
+            <div class="card-big-stat text-red">100.0%</div>
+            <div>
+              <div class="card-desc">First Class Failure</div>
+              <div class="card-subdetail" data-layout-ignore="true">Zero on-time deliveries recorded across entire historical record.</div>
+            </div>
+          </div>
+
+          <!-- Card 3 (Snaps on beat 7.02s) -->
+          <div id="card3" class="metric-card card-warning">
+            <div class="card-header-label" data-layout-ignore="true">Direct Margin Bleed</div>
+            <div class="card-big-stat text-amber">$2.06M</div>
+            <div>
+              <div class="card-desc">Net Profit at Risk</div>
+              <div class="card-subdetail" data-layout-ignore="true">Severe margin erosion from delayed delivery chargebacks &amp; churn.</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="s2-banner" class="callout-banner" data-layout-ignore="true">
+          Standard BI reported <strong>$35.8M sales</strong>. It completely missed the <strong>54.7% delay bleed</strong>.
+        </div>
+      </section>
+
+      <!-- SCENE 3 (9.5s – 15.5s): Predictive Dispatch Engine -->
+      <section id="scene3" class="scene" style="opacity: 0;">
+        <div id="s3-kicker" class="kicker-tag" data-layout-ignore="true">PREDICTIVE ML INTERVENTION</div>
+        <h1 id="s3-title" class="headline">
+          Predict late risk at checkout. <span class="highlight-teal">Automate the fix.</span>
+        </h1>
+        <p id="s3-sub" class="sub-headline">
+          Trained Random Forest classifier with SMOTE oversampling detects dispatch bottlenecks in real time.
+        </p>
+
+        <div id="dispatch-console" class="dispatch-console">
+          <div class="console-topbar" data-layout-ignore="true">
+            <div class="console-dots">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <div class="console-id">LIVE DISPATCH RADAR // ORDER #84920</div>
+            <div style="font-size: 13px; font-family: var(--font-mono); color: var(--accent-teal);">STATUS: EVALUATING</div>
+          </div>
+
+          <div class="console-body">
+            <div class="order-metadata">
+              <div class="meta-item">
+                <span class="meta-label" data-layout-ignore="true">Customer Segment</span>
+                <span class="meta-val" data-layout-ignore="true">Consumer (Apparel &amp; Sporting)</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label" data-layout-ignore="true">Shipping Mode</span>
+                <span class="meta-val" data-layout-ignore="true">First Class Priority</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label" data-layout-ignore="true">Fulfillment Center</span>
+                <span class="meta-val" data-layout-ignore="true">Southeast Regional Air Hub</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label" data-layout-ignore="true">Order Value / Profit</span>
+                <span class="meta-val" data-layout-ignore="true">$328.00 / +$142.50</span>
+              </div>
+            </div>
+
+            <div class="prediction-panel">
+              <div class="risk-header">
+                <span style="font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary);" data-layout-ignore="true">ESTIMATED RISK</span>
+                <span id="risk-badge" class="risk-badge badge-red" data-layout-ignore="true">CRITICAL RISK</span>
+              </div>
+              <div id="risk-score" class="risk-score-display" style="color: var(--accent-red);">
+                94.2% LATE
+              </div>
+              <div class="action-box" data-layout-ignore="true">
+                <strong>Recommended Action:</strong> Reroute to Regional Hub B via Same Day carrier. Prevents margin loss.
+              </div>
+              <button id="mitigate-btn" class="mitigate-btn btn-danger" data-layout-ignore="true">
+                ⚡ AUTO-MITIGATE RISK
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated SVG Cursor -->
+        <svg
+          id="fake-cursor"
+          class="fake-cursor"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.5 3.5L18.5 13.5L12 14.5L9.5 20.5L5.5 3.5Z"
+            fill="#ffffff"
+            stroke="#000000"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </section>
+
+      <!-- SCENE 4 (15.5s – 20.0s): Hero Summary & Outro -->
+      <section id="scene4" class="scene" style="opacity: 0;">
+        <div id="hero-card" class="hero-outro">
+          <div class="kicker-tag" data-layout-ignore="true">PRODUCTION-READY LOGISTICS INTELLIGENCE</div>
+          <h1 class="hero-title">End to End Supply Chain Analysis</h1>
+          <p class="hero-tagline">
+            Turned a 54% delivery failure rate into an automated, margin-protecting machine learning pipeline.
+          </p>
+
+          <div class="hero-pills">
+            <div class="feature-pill" data-layout-ignore="true">172,765 Orders Analyzed</div>
+            <div class="feature-pill" data-layout-ignore="true">Random Forest + SMOTE (74% Acc / 78% Prec)</div>
+            <div class="feature-pill" data-layout-ignore="true">Interactive Streamlit KPI Dashboard</div>
+            <div class="feature-pill" data-layout-ignore="true">Automated CLI Pipeline</div>
+          </div>
+
+          <div class="hero-author-box" data-layout-ignore="true">
+            <div>
+              <div class="author-name">Prathamesh Deshmane</div>
+              <div class="author-role" data-layout-ignore="true">Supply Chain &amp; ML Architecture</div>
+            </div>
+            <div class="github-cta" data-layout-ignore="true">Available on GitHub</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Audio Track: Music Bed -->
+      <audio
+        id="music"
+        class="clip"
+        data-start="0"
+        data-duration="20"
+        data-track-index="1"
+        data-volume="0.8"
+        data-fade-out="2.0"
+        src="assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3"
+      ></audio>
+
+      <!-- Audio Track: Sound Effects (SFX) -->
+      <!-- Scene 1 Slam at 2.8s -->
+      <audio
+        id="sfx-slam1"
+        class="clip"
+        data-start="2.8"
+        data-duration="1.48"
+        data-track-index="2"
+        data-volume="0.85"
+        src="assets/sfx/impact/impactBell_heavy_000.ogg"
+      ></audio>
+
+      <!-- Scene 2 Beat Cards: 5.03s, 6.03s, 7.02s -->
+      <audio
+        id="sfx-card1"
+        class="clip"
+        data-start="5.03"
+        data-duration="0.69"
+        data-track-index="3"
+        data-volume="0.75"
+        src="assets/sfx/casino/card-place-1.ogg"
+      ></audio>
+
+      <audio
+        id="sfx-card2"
+        class="clip"
+        data-start="6.03"
+        data-duration="0.69"
+        data-track-index="4"
+        data-volume="0.75"
+        src="assets/sfx/casino/card-place-1.ogg"
+      ></audio>
+
+      <audio
+        id="sfx-chips"
+        class="clip"
+        data-start="7.02"
+        data-duration="0.26"
+        data-track-index="5"
+        data-volume="0.85"
+        src="assets/sfx/casino/chips-collide-3.ogg"
+      ></audio>
+
+      <!-- Scene 3 Interactive Clicks: 13.0s, 13.15s -->
+      <audio
+        id="sfx-click"
+        class="clip"
+        data-start="13.0"
+        data-duration="0.01"
+        data-track-index="6"
+        data-volume="0.9"
+        src="assets/sfx/interface/click_002.ogg"
+      ></audio>
+
+      <audio
+        id="sfx-switch"
+        class="clip"
+        data-start="13.15"
+        data-duration="0.62"
+        data-track-index="7"
+        data-volume="0.9"
+        src="assets/sfx/interface/switch_001.ogg"
+      ></audio>
+
+      <!-- Scene 4 Hero Slam at 16.02s (beat-locked) -->
+      <audio
+        id="sfx-hero"
+        class="clip"
+        data-start="16.02"
+        data-duration="1.48"
+        data-track-index="8"
+        data-volume="0.85"
+        src="assets/sfx/impact/impactBell_heavy_000.ogg"
+      ></audio>
+    </div>
+
+    <!-- GSAP Script -->
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ==========================================
+      // SCENE 1: The Shipping Paradox (0.0s – 4.5s)
+      // Frame 0 shows title and kicker so thumbnail is rich and never blank
+      // ==========================================
+      tl.set("#s1-kicker", { opacity: 1, y: 0 }, 0);
+      tl.set("#s1-title", { opacity: 1, y: 0 }, 0);
+      tl.set("#s1-sub", { opacity: 1, y: 0 }, 0);
+
+      tl.fromTo(
+        "#s1-grid .shipping-row:not(#s1-first-class)",
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.4, stagger: 0.2, ease: "power2.out" },
+        0.8
+      );
+
+      // First Class slam reveal at 2.80s (aligned to impact bell)
+      tl.fromTo(
+        "#s1-first-class",
+        { opacity: 0, scale: 0.92, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2)" },
+        2.8
+      );
+
+      // Scene 1 Exit at 4.10s
+      tl.to(
+        "#scene1",
+        { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" },
+        4.1
+      );
+
+      // ==========================================
+      // SCENE 2: The $2.06M Margin Bleed (4.5s – 9.5s)
+      // ==========================================
+      tl.set("#scene2", { opacity: 1 }, 4.45);
+
+      tl.fromTo(
+        "#s2-kicker",
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" },
+        4.5
+      );
+
+      tl.fromTo(
+        "#s2-title",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        4.65
+      );
+
+      tl.fromTo(
+        "#s2-sub",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" },
+        4.85
+      );
+
+      // beat-grid: stat 1 at 5.03s, stat 2 at 6.03s, stat 3 at 7.02s
+      tl.fromTo(
+        "#card1",
+        { opacity: 0, scale: 0.88, y: 36 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: "back.out(1.5)" },
+        5.03
+      );
+
+      tl.fromTo(
+        "#card2",
+        { opacity: 0, scale: 0.88, y: 36 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: "back.out(1.5)" },
+        6.03
+      );
+
+      tl.fromTo(
+        "#card3",
+        { opacity: 0, scale: 0.88, y: 36 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: "back.out(1.5)" },
+        7.02
+      );
+
+      tl.fromTo(
+        "#s2-banner",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        7.7
+      );
+
+      // Scene 2 Exit at 9.10s
+      tl.to(
+        "#scene2",
+        { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" },
+        9.1
+      );
+
+      // ==========================================
+      // SCENE 3: Predictive Dispatch (9.5s – 15.5s)
+      // ==========================================
+      tl.set("#scene3", { opacity: 1 }, 9.45);
+
+      tl.fromTo(
+        "#s3-kicker",
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" },
+        9.5
+      );
+
+      tl.fromTo(
+        "#s3-title",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        9.65
+      );
+
+      tl.fromTo(
+        "#s3-sub",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" },
+        9.85
+      );
+
+      tl.fromTo(
+        "#dispatch-console",
+        { opacity: 0, scale: 0.94, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        10.1
+      );
+
+      // Simulated Mouse Cursor movement: enters from bottom-right towards button
+      tl.fromTo(
+        "#fake-cursor",
+        { opacity: 0, x: 1450, y: 850 },
+        { opacity: 1, x: 1280, y: 685, duration: 1.0, ease: "power2.out" },
+        11.8
+      );
+
+      // Click animation on cursor
+      tl.to(
+        "#fake-cursor",
+        { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.inOut" },
+        13.0
+      );
+
+      // Button State Transformation at 13.05s
+      tl.call(
+        () => {
+          const btn = document.getElementById("mitigate-btn");
+          const score = document.getElementById("risk-score");
+          const badge = document.getElementById("risk-badge");
+          if (btn) {
+            btn.className = "mitigate-btn btn-success";
+            btn.innerHTML = "✓ MITIGATED: ON-TIME DISPATCH";
+          }
+          if (score) {
+            score.style.color = "var(--accent-green)";
+            score.textContent = "4.1% RESOLVED";
+          }
+          if (badge) {
+            badge.className = "risk-badge badge-green";
+            badge.textContent = "PROTECTED";
+          }
+        },
+        null,
+        13.05
+      );
+
+      // Cursor moves away
+      tl.to(
+        "#fake-cursor",
+        { x: 1600, y: 750, opacity: 0, duration: 0.6, ease: "power2.in" },
+        13.5
+      );
+
+      // Scene 3 Exit at 15.10s
+      tl.to(
+        "#scene3",
+        { opacity: 0, y: -24, duration: 0.35, ease: "power2.in" },
+        15.1
+      );
+
+      // ==========================================
+      // SCENE 4: Hero Summary & Outro (15.5s – 20.0s)
+      // ==========================================
+      tl.set("#scene4", { opacity: 1 }, 15.45);
+
+      // beat-locked: 16.02s (strong drop at 16.0218s)
+      tl.fromTo(
+        "#hero-card",
+        { opacity: 0, scale: 0.9, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.4)" },
+        16.02
+      );
+
+      // Register timeline for Hyperframes runtime
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

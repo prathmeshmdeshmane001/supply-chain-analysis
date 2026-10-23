@@ -25,3 +25,6 @@ outputs/models/*.joblib
 # Editor & IDE Configs
 .vscode/
 .idea/
+
+# Hyperframes Cache & Artifacts
+**/.hyperframes/
